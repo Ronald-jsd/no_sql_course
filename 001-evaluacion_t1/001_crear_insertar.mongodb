@@ -1,0 +1,245 @@
+use("dbTechStore");
+db.getName()
+
+db.equipos.insertOne(
+        {
+            "nombre": "Laptop Asus",
+            "categoria": "Portátiles",
+            "precio": 2500,
+            "stock": 30,
+            "Accesorios":
+            [ "Cargador","Funda de protección", "Ratón inalámbrico" ]
+        }
+)
+
+use("dbTechStore");
+db.equipos.insertOne(
+    {
+        "nombre": "Monitor LG",
+        "categoria": "Monitores",
+        "precio": 999,
+        "stock": 20,
+        "Accesorios":
+        [ "Cable HDMI", "Base ajustable","Adaptador de corriente" ]
+    }
+)
+
+use("dbTechStore");
+db.equipos.insertOne(
+    {
+        "nombre": "Teclado Logitech",
+        "categoria": "Teclados",
+        "precio": 180,
+        "stock": 30,
+        "Accesorios":
+        [ "Reposamuñecas", "Extractor de teclas","Cable USB desmontable" ]
+    }
+)
+
+use("dbTechStore");
+db.equipos.insertOne(
+    {
+        "nombre": "Impresora Epson",
+        "categoria": "Impresoras",
+        "precio": 1230,
+        "stock": 100,
+        "Accesorios":
+        [ "Cartucho de tóner", "Cable USB","Manual de usuario" ]
+    }
+)
+
+use("dbTechStore");
+db.equipos.insertOne(
+    {
+        "nombre": "Tablet Lenovo",
+        "categoria": "Tablets",
+        "precio": 1750,
+        "stock": 300,
+        "Accesorios":
+        [ "Cargador rápido", "Funda protectora","Lápiz táctil" ]
+    }
+)
+
+
+use("dbTechStore")
+db.equipos.find()
+
+
+use("dbTechStore")
+db.clientes.insertMany(
+    [
+        {
+            "Codigo": "001",
+            "Nombre": "Juan",
+            "Apellido": "Perez",
+            "Fecha de Nacimiento": "15/05/1990",
+            "Celular": 987654321,
+            "Categorías de interés":
+            ["Laptops", "Monitores", "Impresoras"]
+        },
+        {
+            "Codigo": "002",
+            "Nombre": "Ana",
+            "Apellido": "Gómez",
+
+            "Celular": 987654322,
+            "Categorías de interés":
+            ["Tablets", "Teclados", "Ratones", "Monitores"]
+        },
+        {
+            "Codigo": "003",
+            "Nombre": "Luis",
+            "Apellido": "Martínez",
+            "Fecha de Nacimiento": "30/11/1988",
+            "Celular": 987654323,
+            "Categorías de interés":
+            ["Laptops", "Accesorios", "Impresoras", "Teclados"]
+        },
+        {
+            "Codigo": "004",
+            "Nombre": "María",
+            "Apellido": "López",
+            "Fecha de Nacimiento": "17/02/1988",
+
+            "Categorías de interés":
+            ["Impresoras", "Monitores", "Proyectores"]
+        },
+        {
+            "Codigo": "005",
+            "Nombre": "Sofía",
+            "Apellido": "Ramírez",
+            "Fecha de Nacimiento": "25/09/1993",
+            "Celular": 987654326,
+            "Categorías de interés":
+            ["Tablets", "Accesorios", "Software", "Monitores"]
+        }
+    ]
+)
+
+use("dbTechStore")
+db.clientes.find()
+
+
+
+//PREGUNTA 2.-
+//1.	Listar los 3 primeros documentos de equipos.
+use("dbTechStore")
+db.equipos.find().limit(3)
+
+//2.	Listar los 2 primeros documentos de clientes.
+use("dbTechStore")
+db.clientes.find().limit(2)
+
+//3.	Listar solamente los atributos: nombre, apellido, celular y categorías de interés de los clientes.
+use("dbTechStore")
+db.clientes.find(
+    {},
+    {
+        "_id": 0,
+        "Nombre": 1,
+        "Apellido": 1,
+        "Celular": 1,
+        "Categorías de interés": 1
+    }
+)
+//4.	Listar los equipos cuya cantidad de stock sea igual o mayor que 100
+
+use("dbTechStore")
+db.equipos.find(
+    { 
+        "stock": { $gte: 100 } 
+    }
+)
+
+use("dbTechStore")
+db.clientes.find()
+use("dbTechStore")
+db.equipos.find()
+
+
+/*PREGUNTA 3*/
+//Utilizando la colección equipos:
+//•	Actualice el nombre del equipo: Monitor LG por Monitor Samsung
+use("dbTechStore")
+db.equipos.updateOne(
+    {nombre: "Monitor LG"},
+    {
+        $set: {nombre: "Motorola"}
+    }
+)
+
+//•	Actualice el precio de la Tablet Lenovo de 1750 a 2350.
+use("dbTechStore")
+db.equipos.updateMany(
+    {precio: 1750},
+    {
+        $set: {precio: 2350}
+    }
+) 
+
+//Utilizando la colección clientes:
+//•	Actualice la fecha de nacimiento de Ana Gómez por 06/06/2006
+use("dbTechStore")
+db.clientes.updateOne(
+    {Nombre: "Ana", Apellido: "Gómez" },
+    {
+        $set:{ "Fecha de Nacimiento": "06/06/2006"}
+    }
+);
+use("dbTechStore")
+
+//•	Actualice el número de celular de Juan Pérez por: 989654333
+use("dbTechStore")
+db.clientes.updateOne(
+    {Nombre:"Juan", "Apellido": "Perez"},
+    { $set:{Celular: 989654333} }
+)
+
+/*PREGUNTA 4 */
+//•	Elimine un documento de la colección equipos a través de “_id”
+use("dbTechStore")
+db.equipos.deleteOne(
+    {  _id:ObjectId("67f67757a0589faf51006fe0")  }
+)
+
+//•	Elimine los documentos de los equipos cuyas cantidades de stock sea 30.
+use("dbTechStore")
+db.equipos.deleteMany(
+    { stock: 30 }
+)
+
+//•	Elimine en la colección clientes los datos de María López
+
+//•	Elimine todos los documentos de los equipos.
+
+//•	Elimine la colección clientes.
+
+
+
+
+/*
+$gte: 100  --> mayor o igual a 
+$gt: 100   --> mayor que
+$lte: 100  --> menor o igual a
+$lt: 100   --> menor que
+$ne: 100   --> diferente de
+$eq: 100   --> igual a
+$in: [100,200] --> en el array
+$nin: [100,200] --> no en el array
+$exists: true --> existe el campo
+$exists: false --> no existe el campo
+$and: [ {a: 1}, {b: 2} ] --> y
+$or: [ {a: 1}, {b: 2} ] --> o
+$nor: [ {a: 1}, {b: 2} ] --> ni
+$not: {a: 1} --> no
+$regex: "expresión" --> expresión regular
+$elemMatch: {a: 1, b: 2} --> elemento que coincide con la expresión
+$size: 3 --> tamaño del array
+$all: [1, 2] --> todos los elementos del array
+$exists: true --> existe el campo
+$exists: false --> no existe el campo
+$mod: [2, 0] --> módulo
+$expr: { $eq: ["$a", "$b"] } --> expresión
+
+
+*/
