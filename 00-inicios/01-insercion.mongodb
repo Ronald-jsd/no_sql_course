@@ -1,0 +1,103 @@
+//crear la base de datos
+use("cell_store")
+//debe tener una coleccion como minimo para existir
+
+//crear una coleccion(tabla) "products" -  (se necesita al menos un registro con un documento)
+db.products.insertOne(
+    //1 documento (fila 1 registro)
+    {
+    name: 'Samsung', // campo(clave - valor) (MYSQL Columna )
+    price: 3500,
+    stock: 10
+    }
+)
+
+//listar documentos de la coleccion products
+db.products.find()
+
+//inserciones de varios documentos
+db.products.insertMany(
+    [
+        {
+            "_id": 1,
+            "name":"Xiaomi",
+            "price":2500,
+            "stock": 15
+        },
+        {
+            "_id": 2,
+            "name":"Motorola",
+            "price": 1500,
+            "stock": 20
+        },
+        {
+            "_id":3,
+            "name":"Apple",
+            "price": 5000,
+            "stock": 5
+        }
+    ]
+)
+
+
+use("cell_store")
+
+//ACTUALIZAR UN DOCUMENTO
+db.products.updateOne(
+    {_id:1}, //id del documento a actualizar
+    {
+        $set: 
+        {name: "Motorola"} //nuevo valor del atributo name
+    }
+
+)
+
+//actualizar un documento especifico varios atributos
+db.products.updateOne(
+    {_id:1}, //id del documento a actualizar
+    {
+        $set: 
+        { 
+            name: "Motorola", price: 2000, stock: 10
+        } //nuevo valor del atributo name
+    }
+)
+//acctualizar un documento especifico y adicionar atributos
+db.products.updateOne(
+    {_id:1}, //id del documento a actualizar
+    {
+        $set: 
+        {
+            name: "Motorola", price: 2000, stock: 10, color: "black"
+        } //nuevo atributo
+    }
+)
+use("cell_store")
+
+//ASIGNAR A TODOS LOS EQUIPOS EL PRECIO DE 5000
+db.products.updateMany(
+    {}, //todos los documentos
+    {
+        $set: 
+        {price: 5000} //nuevo valor del atributo name
+    }
+)
+use("cell_store")
+
+//eliminar u natributo de un documento
+db.products.updateOne(
+    {_id:1}, //id del documento a actualizar
+    {
+        $unset: 
+        {color: ""} //nuevo valor del atributo name
+    }
+)
+
+//eliminar u natributo de varios documentos
+db.products.updateMany(
+    {}, //todos los documentos
+    {
+        $unset: 
+        {color: ""} //nuevo valor del atributo name
+    }
+)

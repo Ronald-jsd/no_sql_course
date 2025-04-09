@@ -1,0 +1,35 @@
+//ver todas las bases de datos
+show dbs
+
+//ver todas las bases de datos en el servidor  mongodb
+show collections
+
+//Poner en uso una bd en mongodb
+use('sample_mflix')
+
+
+//use tambien sirve para crear una base de datos
+
+//ver nombre de DB en uso
+db.getName()
+
+//ver todas las colecciones(tablas) de esta base de datos en uso
+db.getCollectionNames()
+
+//Listar los documentos de la coleccion movies
+db.movies.find()
+
+//listar documentos de la coleccion users
+db.users.find()
+
+//cantidad de documentos de la coleccion movies
+db.movies.find().count()
+
+
+//cantidad de documentos de la coleccion de movies que son de USA
+db.movies.find({countries: 'USA'}).count()
+//nombre del atributo que contiene el pais
+//en este caso es countries
+
+//listar documentos que son de USA
+db.movies.find({countries: 'USA'})
