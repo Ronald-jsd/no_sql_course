@@ -40,9 +40,8 @@ db.products.insertMany(
 )
 
 
-use("cell_store")
-
 //ACTUALIZAR UN DOCUMENTO
+use("cell_store")
 db.products.updateOne(
     {_id:1}, //id del documento a actualizar
     {
@@ -53,6 +52,7 @@ db.products.updateOne(
 )
 
 //actualizar un documento especifico varios atributos
+use("cell_store")
 db.products.updateOne(
     {_id:1}, //id del documento a actualizar
     {
@@ -72,9 +72,9 @@ db.products.updateOne(
         } //nuevo atributo
     }
 )
-use("cell_store")
 
 //ASIGNAR A TODOS LOS EQUIPOS EL PRECIO DE 5000
+use("cell_store")
 db.products.updateMany(
     {}, //todos los documentos
     {
@@ -82,9 +82,9 @@ db.products.updateMany(
         {price: 5000} //nuevo valor del atributo name
     }
 )
-use("cell_store")
 
 //eliminar u natributo de un documento
+use("cell_store")
 db.products.updateOne(
     {_id:1}, //id del documento a actualizar
     {
@@ -94,6 +94,7 @@ db.products.updateOne(
 )
 
 //eliminar u natributo de varios documentos
+use("cell_store")
 db.products.updateMany(
     {}, //todos los documentos
     {
