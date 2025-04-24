@@ -1,0 +1,121 @@
+use("dbTechStore");
+db.getName()
+
+db.equipos.insertOne(
+        {
+            "nombre": "Laptop Asus",
+            "categoria": "Portátiles",
+            "precio": 2500,
+            "stock": 30,
+            "Accesorios":
+            [ "Cargador","Funda de protección", "Ratón inalámbrico" ]
+        }
+)
+
+use("dbTechStore");
+db.equipos.insertOne(
+    {
+        "nombre": "Monitor LG",
+        "categoria": "Monitores",
+        "precio": 999,
+        "stock": 20,
+        "Accesorios":
+        [ "Cable HDMI", "Base ajustable","Adaptador de corriente" ]
+    }
+)
+
+use("dbTechStore");
+db.equipos.insertOne(
+    {
+        "nombre": "Teclado Logitech",
+        "categoria": "Teclados",
+        "precio": 180,
+        "stock": 30,
+        "Accesorios":
+        [ "Reposamuñecas", "Extractor de teclas","Cable USB desmontable" ]
+    }
+)
+
+use("dbTechStore");
+db.equipos.insertOne(
+    {
+        "nombre": "Impresora Epson",
+        "categoria": "Impresoras",
+        "precio": 1230,
+        "stock": 100,
+        "Accesorios":
+        [ "Cartucho de tóner", "Cable USB","Manual de usuario" ]
+    }
+)
+
+use("dbTechStore");
+db.equipos.insertOne(
+    {
+        "nombre": "Tablet Lenovo",
+        "categoria": "Tablets",
+        "precio": 1750,
+        "stock": 300,
+        "Accesorios":
+        [ "Cargador rápido", "Funda protectora","Lápiz táctil" ]
+    }
+)
+
+
+use("dbTechStore")
+db.equipos.find()
+
+
+use("dbTechStore")
+db.clientes.insertMany(
+    [
+        {
+            "Codigo": "001",
+            "Nombre": "Juan",
+            "Apellido": "Perez",
+            "Fecha de Nacimiento": "15/05/1990",
+            "Celular": 987654321,
+            "Categorías de interés":
+            ["Laptops", "Monitores", "Impresoras"]
+        },
+        {
+            "Codigo": "002",
+            "Nombre": "Ana",
+            "Apellido": "Gómez",
+
+            "Celular": 987654322,
+            "Categorías de interés":
+            ["Tablets", "Teclados", "Ratones", "Monitores"]
+        },
+        {
+            "Codigo": "003",
+            "Nombre": "Luis",
+            "Apellido": "Martínez",
+            "Fecha de Nacimiento": "30/11/1988",
+            "Celular": 987654323,
+            "Categorías de interés":
+            ["Laptops", "Accesorios", "Impresoras", "Teclados"]
+        },
+        {
+            "Codigo": "004",
+            "Nombre": "María",
+            "Apellido": "López",
+            "Fecha de Nacimiento": "17/02/1988",
+
+            "Categorías de interés":
+            ["Impresoras", "Monitores", "Proyectores"]
+        },
+        {
+            "Codigo": "005",
+            "Nombre": "Sofía",
+            "Apellido": "Ramírez",
+            "Fecha de Nacimiento": "25/09/1993",
+            "Celular": 987654326,
+            "Categorías de interés":
+            ["Tablets", "Accesorios", "Software", "Monitores"]
+        }
+    ]
+)
+
+use("dbTechStore")
+db.clientes.find()
+

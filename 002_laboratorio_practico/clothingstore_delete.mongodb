@@ -1,0 +1,23 @@
+//•	Elimine un documento de la colección prenda a través de “_id”
+use("dbClothingStore");
+db.prendas.deleteOne(
+    {_id: ObjectId("67ff0619e011222718587953")}
+);
+//•	Elimine los documentos de las prendas cuyas cantidades de stock sea menor 30.
+use("dbClothingStore");
+db.prendas.deleteMany(
+    { "stock": { $lt: 30 }}
+)
+//•	Elimine en la colección clientes los datos de María López
+use("dbClothingStore");
+db.clientes.deleteOne(
+    {nombre : "María", apellido: "López" },
+
+)
+//•	Elimine todos los documentos de las prendas.
+use("dbClothingStore");
+db.prendas.deleteMany({});
+
+//•	Elimine la colección clientes.
+use("dbClothingStore");
+db.clientes.drop();

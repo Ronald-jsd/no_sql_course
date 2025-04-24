@@ -1,0 +1,39 @@
+/*PREGUNTA 3*/
+//Utilizando la colección equipos:
+//•	Actualice el nombre del equipo: Monitor LG por Monitor Samsung
+use("dbTechStore")
+db.equipos.updateOne(
+    {nombre: "Monitor LG"},
+    {
+        $set: {nombre: "Monitor Samsung"}
+    }
+)
+
+//•	Actualice el precio de la Tablet Lenovo de 1750 a 2350.
+use("dbTechStore")
+db.equipos.updateOne(
+    { Nombre: "Tablet Lenovo" },
+    { 
+        $set: { Precio: 2350 } 
+    }
+  )
+  
+//Utilizando la colección clientes:
+//•	Actualice la fecha de nacimiento de Ana Gómez por 06/06/2006
+use("dbTechStore")
+db.clientes.updateOne(
+    {Nombre: "Ana", Apellido: "Gómez" },
+    {
+        $set:{ "Fecha de Nacimiento": "06/06/2006"}
+    }
+);
+use("dbTechStore")
+
+//•	Actualice el número de celular de Juan Pérez por: 989654333
+use("dbTechStore")
+db.clientes.updateOne(
+    {Nombre:"Juan", "Apellido": "Perez"},
+    { 
+        $set:{Celular: 989654333} 
+    }
+)

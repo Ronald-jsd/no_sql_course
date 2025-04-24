@@ -1,0 +1,34 @@
+use("dbClothingStore");
+db.getCollectionNames()
+
+//Listar los 3 primeros documentos 
+use("dbClothingStore");
+db.prendas.find().limit(3);
+
+//Listar los 2 primeros documentos de clientes
+use("dbClothingStore");
+db.prendas.find().limit(2);
+
+use("dbClothingStore");
+db.clientes.find().limit(2);
+//3. Listar solamente los atributos: nombre, apellido, correo y categorías de interés de los clientes.
+use("dbClothingStore");
+db.clientes.find(
+    {},
+    {
+        nombre:1,
+        apellido:1,
+        email:1,
+        categoria:1
+    }
+)
+
+//Listar prendas cuya cantidad de stock sea >= 50
+use("dbClothingStore");
+db.prendas.find(
+    {
+        stock: {$gte:50}
+    }
+);
+
+
