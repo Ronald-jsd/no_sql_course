@@ -1,0 +1,43 @@
+/*
+Recupere documentos solicitados de la colección “productos“, 
+según sea el caso utilizando 
+operadores lógicos: $and, $or, $not, $nor, u otros:
+*/
+
+
+/**Listar productos _id, nombre, descripción, 
+ * marca y especificaciones, filtre cuya cantidad de ram 
+ * sea “8GB”, precio unitario mayor a 800 y 
+ * cantidad mayor igual a 30, ordene en descendente 
+ * por marca. */
+use("baticell_store")
+db.products.find(
+  {
+    $and: [
+      { "especificaciones.ram": { $regex: /(8)/i } },  // Buscar "8" en la RAM, sin $ eq
+      { "precio_unitario": { $gt: 800 } },
+      { "cantidad": { $gte: 30 } }
+    ]
+  },
+  {
+    _id: 1,
+    nombre: 1,
+    descripcion: 1,
+    marca: 1,
+    especificaciones: 1
+  }
+).sort({ marca: 1 });
+
+/*
+Mostrar los productos cuyo precio unitario sea menor igual
+a 900 o color sea “negro”, descartar la marca OnePlus.*/
+use("baticell_store")
+db.products.find({
+  $or: [
+    { "precio_unitario": { $lte: 900 } },
+    { "coloresDisponibles": "Negro" }
+  ],
+  "marca": { $ne: "OnePlus" }
+})
+
+

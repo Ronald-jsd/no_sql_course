@@ -7,22 +7,22 @@ Operadores lógicos: $and, $or, $not, $nor, u otros:
  * precio de las prendas, filtre cuya sucursal sea “Sucursal Norte” 
  * y el precio sea mayor igual a 100. */
 use("UrbanStyle_store");
-  db.products.find(
-    {
-        $and: 
-        [
-            { sucursal: {$eq: "Sucursal Norte" }} ,
-            { precio: {$gte: 45}}
-        ] 
-    },
-    {
-        _id: 1,
-        nombre: 1,
-        marca: 1,
-        talla: 1,
-        precio: 1
-    }
-  );
+db.products.find(
+  {
+    $and:
+      [
+        { sucursal: { $eq: "Sucursal Norte" } },
+        { precio: { $gte: 45 } }
+      ]
+  },
+  {
+    _id: 1,
+    nombre: 1,
+    marca: 1,
+    talla: 1,
+    precio: 1
+  }
+);
 
 /**2.Mostrar los productos cuyo precio sea mayor a 55 
  * o color “azul”, 
@@ -31,15 +31,15 @@ use("UrbanStyle_store");
 db.products.find(
   {
     $and: [
-      { 
-        "especificaciones.temporada": {$ne: "Invierno"} 
+      {
+        "especificaciones.temporada": { $ne: "Invierno" }
       },
       {
-        $or: 
-        [
-          { precio: {$gt: 55} },
-          { "especificaciones.color" : { $eq: "Azul"} },
-        ]
+        $or:
+          [
+            { precio: { $gt: 55 } },
+            { "especificaciones.color": { $eq: "Azul" } },
+          ]
       }
     ]
   }

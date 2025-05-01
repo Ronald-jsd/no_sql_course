@@ -15,23 +15,23 @@
 el precio unitario sea >= 50 
 el total de factura sea  < 100.50
 ordenado en ascendente por total_factura
-**/ 
+**/
 db.productos.find(
     {
         $and: [
-            { precio_unitario: {$gte: 50 } },
-            { total_factura: {$lt: 100.50} }
+            { precio_unitario: { $gte: 50 } },
+            { total_factura: { $lt: 100.50 } }
         ]
     },
     {
         _id: 1,
-        descripcion:1,
+        descripcion: 1,
         precio_unitario: 1,
         importe: 1,
-        total_factura:1,
-        cant_productos:1
+        total_factura: 1,
+        cant_productos: 1
     }
-).sort({total_factura: -1})
+).sort({ total_factura: -1 })
 
 
 

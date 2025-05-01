@@ -14,17 +14,17 @@ Ordene por cualquier campo.
  */
 
 use("UrbanStyle_store");
-  db.sellers.find(
-  {
-        sucursal: {$eq: "Sucursal Sur"}
-  },
-  {
-    _id: 0,
-    nombre: 1,
-    "metas.ventasMensuales": 1,
-    sucursal: 1
-  }
-  ).sort({ nombre: 1}).skip(3);
+db.sellers.find(
+    {
+        sucursal: { $eq: "Sucursal Sur" }
+    },
+    {
+        _id: 0,
+        nombre: 1,
+        "metas.ventasMensuales": 1,
+        sucursal: 1
+    }
+).sort({ nombre: 1 }).skip(3);
 
 
 
@@ -39,17 +39,17 @@ recuperar los 4 primeros documentos.
 Filtre sólo los vendedores cuya cantidad de clientes nuevos
 que atienden sean menores e iguales que 20. */
 use("UrbanStyle_store");
-  db.sellers.find(
+db.sellers.find(
     {
-        "metas.clientesNuevos": { $lte: 20}
+        "metas.clientesNuevos": { $lte: 20 }
     },
     {
         _id: 0,
         nombre: 1,
         apellidos: 1,
-        fechaIngreso:1,
+        fechaIngreso: 1,
     }
-).sort({apellidos: -1}).limit(4);
+).sort({ apellidos: -1 }).limit(4);
 
 
 
@@ -61,21 +61,21 @@ y menor que 11000. Ordene en descendente por nombre. */
 use("UrbanStyle_store");
 db.sellers.find({
     $and: [
-    {
-        "metas.ventasMensuales": { $gte: 10000}
-    },
-    {
-        "metas.ventasMensuales": { $lt: 11000}
-    }
+        {
+            "metas.ventasMensuales": { $gte: 10000 }
+        },
+        {
+            "metas.ventasMensuales": { $lt: 11000 }
+        }
     ]
 },
 
-{
-    _id: 0,
-    nombre: 1,
-    apellidos: 1,
-    "metas.ventasMensuales": 1
-}
+    {
+        _id: 0,
+        nombre: 1,
+        apellidos: 1,
+        "metas.ventasMensuales": 1
+    }
 ).sort({ nombre: -1 });
 
 

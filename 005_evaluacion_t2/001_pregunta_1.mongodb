@@ -8,31 +8,34 @@ db.getCollectionNames();
   */
 
 
-  /*1. Muestre los clientes que no residan en Breña 
-  ni en La Molina. 
-  Ordene en descendente por nombre. 
-  Sólo debe mostrar los campos: nombres, apellidos,
-   email e historial de compras. */
-  use("UrbanStyle_store");
-  db.clients.find(
+/*1. Muestre los clientes que no residan en Breña 
+ni en La Molina. 
+Ordene en descendente por nombre. 
+Sólo debe mostrar los campos: nombres, apellidos,
+ email e historial de compras. */
+use("UrbanStyle_store");
+db.clients.find(
     {
         direccion:
         {
-            $not: { $regex: /(la molina|breña)/i }
+            $not: /la molina|breña/i
+            /*
+            $ not: { $ regex: /(la molina|breña)/i }
+            */
         }
     },
-{
-    _id:0,
-    nombre: 1,
-    apellidos: 1,
-    email:1,
-    telefono:1,
-    direccion:1,
-    preferencias:1,
-    historialCompras: 1
+    {
+        _id: 0,
+        nombre: 1,
+        apellidos: 1,
+        email: 1,
+        telefono: 1,
+        direccion: 1,
+        preferencias: 1,
+        historialCompras: 1
 
-}
-).sort({nombre: -1});
+    }
+).sort({ nombre: -1 });
 
 
 /*2. Muestre los clientes que tienen como parte de sus preferencias ropa de niños. 
@@ -43,22 +46,22 @@ Ordene por fecha de registros de manera ascendente. */
 use("UrbanStyle_store");
 db.clients.find(
     {
-        preferencias: 
+        preferencias:
         {
-            $in: ["Niño" ]
+            $in: ["Niño"]
         }
     },
     {
-        _id: 0, 
+        _id: 0,
         nombre: 1,
         apellidos: 1,
         fechaRegistro: 1,
-        preferencias:1
+        preferencias: 1
     }
-  
+
 ).sort({ "fechaRegistro": 1 })
 
 
 
 use("UrbanStyle_store");
-  db.clients.find();
+db.clients.find();
