@@ -26,3 +26,9 @@ db.equipos.deleteMany(
 //•	Elimine la colección clientes.
 use ("dbTechStore")
 db.clientes.drop()
+
+
+//Eliminar el ultimo registro
+db.clientes.deleteOne(
+    db.clientes.find().sort({ $natural: -1 }).limit(1)
+);

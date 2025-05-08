@@ -1,0 +1,44 @@
+/*Listar todos los productos de Sistemas Operativo Android 10, 
+debe mostrar: nombre, descripción, precio_unitario y categoría */
+use("baticell_store")
+db.products.find(
+    {"especificaciones.sistema_operativo": "Android 10"},
+    {
+        _id: 0,
+        nombre: 1,
+        descripcion: 1,
+        precio_unitario: 1,
+        categoria: 1
+    }
+);
+
+/*Actualizar las siguientes especificaciones 
+en los productos de Almacenamiento 256 GB:
+
+ram: 16 GB
+cantidad: 45
+coloresdisponible: dorado 
+(agregar a los demás existentes)
+ */
+
+use("baticell_store")
+db.products.updateMany(
+    { "especificaciones.almacenamiento": "256 GB" },
+    { 
+        $set: { 
+            "especificaciones.ram": "16 GB", 
+            "cantidad": 45 },
+             $push: { "coloresDisponibles": "dorado" } 
+    }
+);
+
+
+
+
+
+
+
+
+
+
+

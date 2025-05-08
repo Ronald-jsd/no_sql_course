@@ -1,0 +1,58 @@
+/*Cursor:
+resultado de documentos de una consulta
+*/
+
+/*Queremos contar cuantoos clientes
+estan registrados en la base de datos que tieen mas de 
+300 puntos */
+use("baticell_store")
+
+//almaceno a los que son > de 300 en cursor
+const cursor = db.clients.find(
+    {puntos: { $gt: 300}}
+)
+
+//declaro otra constante para almacenar la cantidad 
+//de elementos encontrados
+const totalClientes = cursor.count();
+'El total de clientes es: ' + totalClientes; 
+//imprimo resultado concatenado
+
+
+/**--------------------------------------------------- */
+/*Mostrar todos los productos ordenados
+a traves del precio unitario de manera descendente
+mostrar los campos nombre,  precio unitario */
+use("baticell_store")
+db.products.find(
+    {}, //sin filtro
+    {
+        _id:0, nombre:1, precio_unitario:1
+    }
+).sort({precio_unitario: -1})
+//.toArray(); o .pretty para ordenar sintaxis resultante
+
+/**---------------------------------- */
+/**Obtener la segunda pagina de clientes, cosniderando
+ * que cada pagina tiene 3 resultados y los clientes estan
+ * ordenados pos nombre en orden ascendente
+ */
+use("baticell_store")
+db.clients.find(
+    {},
+    {
+        _id: 0, nombre: 1, email:1
+    }
+).sort({nombre:1}).skip(3).limit(3);
+
+/** Obtener una lista con los nombres y metas
+ * de los vendedores de la sucursal "Sucursal Norte"
+ * y visualizarla
+*/
+use("baticell_store")
+db.sellers.find(
+    {sucursal: "Sucursal Norte"},
+    {
+        _id:0, nombre: 1,"metas":1
+    }
+);

@@ -1,0 +1,57 @@
+/*Aplicar Pipelines para las siguientes consultas: 
+Utilizar $lookup / $match y 
+los operadores que crea convenientes. */
+
+
+/**1.Listar todos los productos con sus respectivos: 
+ * nombre, imei, categoría y colores disponibles, 
+ * filtre aquellos productos de cantidad menor igual a 40. 
+ * ordene en descendente por cantidad del producto. */
+
+use("baticell_store")
+db.products.aggregate([
+    {
+        $match:{ "cantidad": {$lte: 40 }}
+    },
+    {
+        $sort: {cantidad: -1}
+    },
+    {
+        $project:{
+            _id: 0,
+            "nombre": 1,
+            "categoria": 1,
+            "coloresDisponibles": 1,
+        }
+    }
+]);
+
+
+
+
+/*2.Listar todos los productos con sus respectivos nombre,
+ precio_unitario, marca y especificaciones, 
+ filtre aquellos productos de Sistema Operativo Android 11 .  
+ Ordenar de manera ascendente por marca y precio_unitario descendente */
+
+ 
+use("baticell_store")
+db.products.aggregate([
+    {
+        $match:{
+            "especificaciones.sistema_operativo":  "Android 11"
+        }
+    },
+    {
+        $sort: {"marca": 1, "precio_unitario": -1}
+    },
+    {
+        $project: {
+            _id: 0,
+          "nombre": 1,
+          "precio_unitario": 1,
+          "marca": 1,
+          "especificaciones": 1
+        }
+    }
+]);

@@ -1,0 +1,91 @@
+/*Cursor:
+resultado de documentos de una consulta
+*/
+
+
+/*Une los productos comprados por cada cliente 
+con los detalles del producto desde la collecion
+products*/
+use("baticell_store")
+db.clients.aggregate([
+    //  Desenrolla cada compra del historial
+    { $unwind: "$historialCompras" },
+    //  Join con la colección 'products'
+    {
+        $lookup: {
+            from: "products",
+            localField: "historialCompras.producto",
+            foreignField: "nombre",
+            as: "productoInfo"
+        }
+    },
+    // Desenrolla el array 'productoInfo'
+    { $unwind: "$productoInfo" },
+    // Proyecta los campos deseados
+    {
+        $project: {
+            _id: 0,
+            cliente: { $concat: ["$nombre", " ", "$apellidos"] },
+            producto: "$productoInfo.nombre",
+            cantidad: "$historialCompras.cantidad",
+            precio_unitario: "$productoInfo.precio_unitario"
+        }
+    }
+])
+
+
+/*Muestra  los clientes con los siguientes datos :
+Fecha de registro
+Cantidad de dias transcurridos
+cantidad de meses transcurridos
+Año en que se registro */
+use("baticell_store")
+db.clients.aggregate([
+    {
+        $project:{
+                _id: 0,
+                //nombrelibre
+                cliente: { $concat: ["$nombre", " ", "$apellidos"]},
+                fechaRegistroFormateada: {
+                    $dateToString: {format: "%d-%m-%Y", date:  {$toDate: "$fechaRegistro"  }}
+                },
+                diasDesdeRegistro: {
+                    $dateDiff: { startDate:  {$toDate: "$fechaRegistro"  }, endDate: "$$NOW", unit: "day"}
+                },
+                mesesDesdeRegistro: {
+                    $dateDiff: {startDate: {$toDate: "$fechaRegistro"  }, endDate: "$$NOW", unit: "month"}
+                },
+                anioReegistro: {$year: {$toDate: "$fechaRegistro"  }}
+
+        }
+    }
+]);
+
+/* Queremos obtener un listado de productos que
+Clasifique los productos segun su precio
+Determine si un producto esta en stock o agotado*/
+use("baticell_store")
+db.products.aggregate([
+    {
+        $project:{
+            _id:0,
+            "nombre": 1,
+            "descripcion":1,
+            "precio_unitario": 1,
+            clasificacion: { //cursor name temporal
+                $cond:{          //nombrecampo
+                    if: { $gte: ["$precio_unitario", 1000.00] },
+                    then: "Premium",
+                    else: "Economico"
+            }
+        },
+            estadoStock: {
+                $cond: {
+                    if: { $gte: ["$cantidad", 1]},
+                    then: "Disponible",
+                    else: "Agotado"
+                }
+            }
+        }
+    }
+]);

@@ -1,0 +1,50 @@
+/*Utilizando programación de cursores y 
+operadores que crea convenientes para: */
+
+/*1.Listar de manera ordenada los clientes 
+(nombres, apellidos, email y teléfono) 
+ordenados por apellidos de manera ascendente y 
+por sucursal de manera ascendente */
+use("baticell_store")
+db.clients.aggregate([
+    
+    { $sort:{ "apellidos": 1 } },
+    {
+        $project: {
+            _id:0,
+            "nombre": 1,
+            "apellidos": 1,
+            "email": 1,
+            "telefono": 1
+        }
+    }
+]);
+
+
+
+/*2.Listar los productos 
+(nombre, marca, categoria, imei y especificaciones) 
+cuyo precio es mayor e igual que 1000. 
+Ordenado por precio de manera ascendente*/
+use("baticell_store")
+db.products.aggregate([
+    {
+        $match: { "precio_unitario": {$gte:1000.00 } }
+    },
+    {
+        $sort: {"precio_unitario": 1}
+    },
+    {
+        $project: {
+            _id:0,
+            nombre: 1,
+            marca: 1,
+            categoria: 1,
+            imei: 1,
+            especificaciones:1,
+            precio_unitario: 1
+
+        }
+    }
+]);
+

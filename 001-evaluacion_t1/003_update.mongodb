@@ -37,3 +37,10 @@ db.clientes.updateOne(
         $set:{Celular: 989654333} 
     }
 )
+
+//Actualizar a todos los equipos de categoria Portátiles El el stock a 100
+
+db.equipos.updateMany(
+   { categoria: "Portátiles" }, 
+   { $set: { stock: 100 } }   
+);

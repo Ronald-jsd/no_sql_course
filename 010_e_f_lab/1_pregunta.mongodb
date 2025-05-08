@@ -1,0 +1,111 @@
+/**PREGUNTA 1.- Crear una base de datos No relacional en MongoDB, 
+ llamado: “Baticell_store”, 
+ considere con criterio las colecciones de acuerdo con 
+ las siguientes solicitudes:
+Implementar sentencias para aplicar CRUD (Create, Update y Delete):
+ */
+
+
+/*Inserte de forma masiva 5 nuevos clientes 
+(dos de estado civil soltero y dos de estado 
+civil casado y otro sin estado). 
+Estos nuevos documentos deben 
+tener valores correlativos (1, 2, 3, 4 y 5) al _id.
+*/
+use("Baticell_store2");
+db.clientes.insertMany(
+    [
+    {
+        _id : 1,
+        nombre: "Rodrigo",
+        apellido: "Torres",
+        estadoCivil: "soltero",
+        email: "rodrigo@gmail.com",
+        telefono: "995968451",
+        direccion: "Lima Jr. Puno 3535"
+    },
+    {
+        _id : 2,
+        nombre: "Abigail",
+        apellido: "Salas",
+        estadoCivil: "soltero",
+        email: "abi@gmail.com",
+        telefono: "964512459",
+        direccion: "Barranco Av. San Martin"
+    },
+    {
+        _id : 3,
+        nombre: "Francisco",
+        apellido: "Lara",
+        estadoCivil: "casado",
+        email: "francisco@gmail.com",
+        telefono: "963951456",
+        direccion: "San Miguel Av. Gaviotas 15"
+    },
+    {
+        _id : 4,
+        nombre: "Daiana",
+        apellido: "Rivera",
+        estadoCivil: "casado",
+        email: "daiana@gmail.com",
+        telefono: "956515899",
+        direccion: "Surco Calle RP 58"
+    },
+    {
+        _id : 5,
+        nombre: "Angel",
+        apellido: "Carpio",
+        email: "angel@gmail.com",
+        telefono: "959658147",
+        direccion: "Callao Av. Principal 554"
+    }
+]
+);
+
+/*
+Sentencia mongodb que modifique el email, 
+el apellido, el número de teléfono y dirección de tres clientes.
+*/
+use("Baticell_store2");
+db.clientes.updateOne(
+    { _id: 1 },
+    { $set: { 
+        apellido: "Vargas", 
+        telefono: "954651548", 
+        direccion: "Chorrillos Av. Principal 4" } 
+    }
+);
+
+db.clientes.updateOne(
+    { _id: 2 },
+    { $set: { 
+        apellido: "Villegas", 
+        telefono: "954651598", 
+        direccion: "Miraflores Av. Principal 15" } 
+    }
+);
+
+db.clientes.updateOne(
+    { _id: 3 },
+    { $set: { 
+        apellido: "Cardenas", 
+        telefono: "987451525", 
+        direccion: "Lima Jr. Grau" } 
+    }
+);
+
+/*
+Elimine aquellos datos de clientes 
+cuyo estado civil es “casado”.
+*/
+db.clientes.deleteMany(
+    {"estadoCivil": "casado"}
+);
+
+/*
+Elimine el último cliente ingresado.
+ */
+use("Baticell_store2");
+db.clientes.deleteOne(
+    {_id: 5}
+);

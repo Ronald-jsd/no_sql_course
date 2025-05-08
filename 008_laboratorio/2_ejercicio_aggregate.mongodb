@@ -1,0 +1,176 @@
+/**Filtrar los clientes que están activos
+ * y tienen mas de 200 puntos acumulados.
+ * Luego , proyectamos solo su nombre apellidos y puntos
+ */
+use("baticell_store");
+db.clients.aggregate([
+    {
+        $match: 
+        { 
+            activo: true, puntos: { $gt: 200 },
+        }
+    },
+    {
+        $project: { _id: 0, nombre: 1, apellidos: 1, puntos: 1 },
+    },
+    {
+        $limit: 3
+    }
+]);
+
+/**
+ Agrupa los productos por cantidad de memoria ram , 
+ calcula el total de inventario disponible, ordena los resultados de 
+ menor cantidad y muestra solo los 3 primeros.
+ */
+ use("baticell_store");
+db.products.aggregate([
+    {
+        $group: 
+        {   //columnaagrupar 
+            //_id: "$nombreAgrupar"
+            _id: "$especificaciones.ram",
+            //segun la agrupacion calculara
+            //nombreVar : { $opGroup: "$columna"}
+            totalCantidadProd: {$sum: "$cantidad"}
+        }
+    },
+    {
+        $sort: { totalCantidadProd: -1 }
+    },
+    {
+        $limit: 3
+    }
+]);
+
+/*
+En MongoDB, no necesitas usar $and explícitamente 
+dentro de $match si todas las condiciones deben
+ cumplirse (como "activo es true y puntos > 200"). 
+Puedes simplemente escribir las condiciones juntas, 
+y MongoDB las trata como un $and implícito. */
+/*
+
+Si además necesitas proyectar solo ciertos campos 
+(`nombre`, `apellidos`, `puntos`), agrega una etapa 
+`$project` después del `$match`:
+{
+    $project: {
+        _id: 0,
+        nombre: 1,
+        apellidos: 1,
+        puntos: 1
+    }
+}
+ */
+
+
+// -------------------
+
+/*FILTRA VENDEDORES DE LA "SUCURSAL NORTE", ordena por apellidos,
+y muestra la segunda pagina (suponiendo un tamaño de pagina
+de 1 resultados) */
+use("baticell_store")
+db.sellers.aggregate([
+    { 
+        $match: { "sucursal": "Sucursal Norte" } 
+    },
+    {
+        $sort: { "apellidos" : 1}
+    }, 
+    {
+        $skip: 1
+    },
+    {
+        $limit:  1
+    }
+]);
+
+
+/**
+ Queremos agrupar las ventas por sucursales, 
+ calcular el total de ventas mensuales de cada sucursal,
+ ordenarlas de mayor a menor y proyectar solo la sucursal 
+ y el total de ventas 
+ */
+use("baticell_store")
+db.sellers.aggregate([
+    {
+        $group: { 
+            _id: "$sucursal",
+            Total_ventas_sucursal: {$sum: "$metas.ventasMensuales"} 
+        }
+    },
+    {
+        $sort: {Total_ventas_sucursal:-1 }
+    },
+    {
+        $project: { "sucursal":1,Total_ventas_sucursal:1 }
+    }
+]);
+
+
+/**Listado del nombre y apellido del cliente concatenado
+ * el nombre del producto que ha comprado la cantidad
+ * y el precio unitario
+ */
+use("baticell_store")
+db.clients.aggregate([
+  { $unwind: "$historialCompras" },
+  {
+    $lookup: {
+      from: "products",
+      localField: "historialCompras.producto",
+      foreignField: "nombre",
+      as: "producto_info"
+    }
+  },
+  { $unwind: "$producto_info" },
+  {
+    $project: {
+      _id: 0,
+      resumen: {
+        $concat: [
+          "$nombre", " ", "$apellidos",
+          " compró ", "$historialCompras.producto",
+          ", cantidad: ", { $toString: "$cantidad" },
+          ", precio unitario: ", { $toString: "$producto_info.precio_unitario" }
+        ]
+      }
+    }
+  }
+])
+
+
+/* 
+Usar $unwind después del $lookup: para convertir el array producto_info en un solo objeto (no un array).
+Convertir los campos numéricos (cantidad y precio) a string antes de concatenarlos.
+Evitar pasar arrays directamente a $concat.*/
+use("baticell_store")
+db.clients.aggregate([
+    { $unwind: "$historialCompras" },
+    {
+        $lookup: {
+            from: "products",
+            localField: "historialCompras.producto",
+            foreignField: "nombre",
+            as: "producto_info"
+        }
+    },
+    { $unwind: "$producto_info" },
+    {
+        $project: {
+            _id: 0,
+            resumen: {
+                $concat: [
+                    "$nombre", " ", "$apellidos",
+                    " compró ", "$historialCompras.producto",
+                    ", cantidad: ", { $toString: "$historialCompras.cantidad" },
+                    ", precio unitario: ", { $toString: "$producto_info.precio_unitario" }
+                ]
+            }
+        }
+    }
+]);
+
+

@@ -1,0 +1,64 @@
+/*Cursor:
+resultado de documentos de una consulta
+*/
+
+
+
+//agrupar por nombre y establecer el promedio  aquellos que su precio unitario sea 
+//mayor a 900 y cantidad <= 30   o ram de 8 gb 
+//mostrar precio promedio, nombre del equipo
+//calcular la suma total de todos los productos vendidos(cantidad * precio_unitario)
+/*En lugar de hacer dos consultas separadas, 
+
+$facet permite realizarlo  en una sola consulta, 
+dividiendo la ejecución en varias “ramas”. */
+use("baticell_store");
+db.products.aggregate([
+    {
+        $match: {
+            $or: [
+                {
+                    $and: [
+                        { precio_unitario: { $gt: 900 } },
+                        { cantidad: { $lte: 30 } }
+                    ]
+                },
+                { "especificaciones.ram": "8 GB" }
+            ]
+        }
+    },
+    {
+        $facet: {
+            promedio_por_nombre: [
+                {
+                    $group: {
+                        _id: "$nombre",
+                        promedio_precio: { $avg: "$precio_unitario" }
+                    }
+                },
+                {
+                    $project: {
+                        nombre: "$_id",
+                        promedio_precio: 1,
+                        _id: 0
+                    }
+                }
+            ],
+            monto_total_general: [
+                {
+                    $group: {
+                        _id: null,
+                        total_precio: { $sum: { $multiply:["$precio_unitario" , "$cantidad"]} }
+                    }
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        total_precio: 1
+                    }
+                }
+            ]
+        }
+    }
+]);
+
